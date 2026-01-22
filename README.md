@@ -28,12 +28,17 @@ bug排查：1。检查配置，配置正常没有遗漏id。2.检查开发版本
 
 ### 4.
 问题：非游戏业务。自己练习代码时，启动服务连接skynet mysql，发现报了：Plugin 'mysql_native_password' is not loaded
+
 原因：mysql_native_password 插件(模式)在新版本中被弃用了，新模式为 caching_sha2_password，需要启用一下旧模式。
+
 解决方式：
 打开配置vi /etc/my.cnf  
+
 在[mysqld]添加
 mysql_native_password=ON
+
 重启 MySQL 服务：systemctl restart mysqld
+
 在mysql中执行：
 ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY '数据库密码';
 FLUSH PRIVILEGES;
